@@ -47,5 +47,10 @@ app.use("/api", campRoute);
 const authRoute = require("./routes/auth");
 app.use("/api/auth", authRoute);
 
+
+const courseRoute = require("./routes/course")
+app.use("/api",courseRoute);
+
+
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
