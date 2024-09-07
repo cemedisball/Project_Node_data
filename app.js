@@ -29,6 +29,8 @@ function checkAuth(req, res, next) {
 }
 
 // Serve HTML file
+
+//camp_page
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'camp_page', 'camp_homepage.html'));
 });
@@ -44,6 +46,16 @@ app.get('/camp_adminpage', checkAuth, (req, res) => {
     res.sendFile(path.join(__dirname, 'camp_page', 'camp_adminpage.html'));
 });
 
+//course_page
+
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'course_page', 'course_homepage.html'));
+});
+
+app.use(express.static(path.join(__dirname, 'course_page')));
+
+
+
 // Connect to MongoDB
 mongoose.connect(process.env.MONGO_DB_URI, {})
     .then(() => {
@@ -57,6 +69,11 @@ app.use("/api", campRoute);
 
 const authRoute = require("./routes/auth");
 app.use("/api/auth", authRoute);
+
+
+const courseRoute = require("./routes/course")
+app.use("/api",courseRoute);
+
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
