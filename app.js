@@ -32,12 +32,6 @@ app.get('/', (req, res) => {
 app.use(express.static(path.join(__dirname, 'course_page')));
 
 
-//course_adminpage
-app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'course_adminpage', 'course_adminhomepage.html'));
-});
-
-app.use(express.static(path.join(__dirname, 'course_adminpage')));
 
 // Connect to MongoDB
 mongoose.connect(process.env.MONGO_DB_URI, {})
