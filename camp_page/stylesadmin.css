@@ -1,4 +1,3 @@
-
 body {
     font-family: Arial, sans-serif;
     margin: 0;
@@ -8,26 +7,25 @@ body {
 .navbar {
     display: flex;
     align-items: center;
-    justify-content: space-between; /* กระจายเนื้อหาซ้ายและขวา */
+    justify-content: space-between;
     background-color: #EEDEB6;
     color: white;
-    padding:  1rem;
-    position: relative; /* ทำให้ navbar กลายเป็นพ่อของ img */
-   /* height: 80px; /* กำหนดความสูงของ navbar */
+    padding: 1rem;
+    position: relative;
 }
 
 .navbar img {
-    position: absolute; /* ทำให้รูปภาพไม่กระทบต่อขนาดของ navbar */
+    position: absolute;
     top: 50%;
     left: 1rem;
     transform: translateY(-50%);
-    height: 150px; /* ปรับขนาดโลโก้ให้เหมาะสม */
+    height: 150px;
 }
 
 .navbar-links {
     display: flex;
-    flex: 15x; /* ขยายส่วนนี้เพื่อจัดกึ่งกลาง */
-    justify-content: center; /* จัดลิงก์ Camp และ Course ให้อยู่ตรงกลาง */
+    flex: 1;
+    justify-content: center;
     gap: 15px;
     width: 100%; 
     max-width: 1200px;
@@ -39,39 +37,27 @@ body {
     font-size: 1.2rem;
     padding: 0.5rem 1rem;
 }
-/*.navbar a1 {
-    color: rgb(236, 5, 5);
-    text-decoration: none;
-    font-size: 1.2rem;
-    padding: 0.5rem 1rem;
-}*/
 
 .navbar a:hover {
     text-decoration: underline;
 }
-.navbar-title {
-    flex: 1; /* ให้พื้นที่ตรงกลาง */
-    text-align: center; /* จัดกึ่งกลางข้อความ */
-    font-size: 1.5rem; /* ขนาดตัวอักษรของข้อความ */
-}
-
 
 .logout-btn {
-    color: red; /* สีของลิงค์ Logout เป็นสีแดง */
-    text-decoration: none; /* ลบ underline ของลิงค์ */
-    display: flex; /* ใช้ flexbox เพื่อจัดการตำแหน่งของไอคอนและข้อความ */
-    align-items: center; /* จัดกึ่งกลางแนวตั้ง */
-    padding: 0.5rem 1rem; /* เพิ่ม padding ถ้าต้องการ */
+    color: red;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    padding: 0.5rem 1rem;
 }
 
 .logout-btn i {
-    margin-right: 8px; /* ช่องว่างระหว่างไอคอนและข้อความ */
+    margin-right: 8px;
 }
 
 .logout-btn:hover {
-    text-decoration: underline; /* เพิ่ม underline เมื่อนำเมาส์ไปวาง */
+    text-decoration: underline;
 }
-/*table*/
+
 table {
     width: 100%;
     border-collapse: collapse;
@@ -92,5 +78,171 @@ th {
     background-color: #f4f4f4;
 }
 
+.edit-btn {
+    color: rgb(53, 189, 243); /* สีฟ้าสำหรับข้อความ Edit */
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 1rem;
+    margin-right: 10px;
+    display: flex;
+    align-items: center;
+}
 
+.edit-btn i {
+    color: rgb(53, 189, 243); /* สีฟ้าสำหรับไอคอน Edit */
+    margin-right: 4px;
+}
 
+.delete-btn {
+    color: red; /* สีแดงสำหรับข้อความ Delete */
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 1rem;
+    margin-right: 10px;
+    display: flex;
+    align-items: center;
+}
+
+.delete-btn i {
+    color: red; /* สีแดงสำหรับไอคอน Delete */
+    margin-right: 4px;
+}
+
+.edit-btn:hover, .delete-btn:hover {
+    text-decoration: underline;
+}
+
+.header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+}
+
+.header-container h1 {
+    margin: 0;
+}
+
+.add-btn {
+    background-color: #007bff; /* สีฟ้า */
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.add-btn i {
+    margin-right: 5px; /* ช่องว่างระหว่างไอคอนกับข้อความ */
+}
+
+.add-btn:hover {
+    background-color: #0056b3; /* สีฟ้าเข้มเมื่อ hover */
+}
+
+.table-container {
+    margin: 20px 0;
+}
+
+form {
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
+form label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+form input, form textarea, form select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #cccccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+form select {
+    background-color: #fff;
+    font-size: 1rem;
+}
+
+form button {
+    background-color: #007bff; /* สีฟ้า */
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+form button:hover {
+    background-color: #0056b3; /* สีฟ้าเข้มเมื่อ hover */
+}
+/*จัด campdetail ให้ตรงกับ campname*/
+.camp-info-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* จัดแนวทางซ้าย */
+    gap: 5px; /* ช่องว่างระหว่าง camp name และ More Detail */
+    padding: 5px; /* ช่องว่างรอบ ๆ container */
+}
+
+.camp-name {
+    font-size: 1rem; /* ขนาดตัวอักษรที่เหมาะสม */
+    font-weight: bold; /* ทำให้ชื่อค่ายเด่นขึ้น */
+}
+
+.more-detail-btn {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 0.8rem; /* ขนาดของข้อความในปุ่มเล็กลง */
+    color: #007bff; /* สีฟ้าสำหรับข้อความ More Detail */
+    display: flex;
+    align-items: center;
+    padding: 5px 10px; /* เพิ่ม padding สำหรับปุ่ม */
+    border-radius: 4px; /* มุมปุ่มกลมขึ้น */
+    transition: background-color 0.3s, color 0.3s; /* เพิ่มการเปลี่ยนสีที่เรียบ */
+}
+
+.more-detail-btn i {
+    color: #007bff; /* สีฟ้าสำหรับไอคอน More Detail */
+    margin-right: 4px;
+    font-size: 0.8rem; /* ขนาดของไอคอนเล็กลง */
+}
+
+.more-detail-btn:hover {
+    background-color: #e7f0ff; /* สีพื้นหลังอ่อนเมื่อ hover */
+    color: #0056b3; /* สีข้อความเข้มขึ้นเมื่อ hover */
+    text-decoration: underline; /* ขีดเส้นใต้ข้อความเมื่อ hover */
+}
+
+/*Detail*/
+.more-detail-btn {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 0.8rem; /* ขนาดของข้อความในปุ่มเล็กลง */
+    color: #007bff; /* สีฟ้าสำหรับข้อความ More Detail */
+    display: inline-flex;
+    align-items: center;
+    margin-left: 10px;
+}
+
+.more-detail-btn i {
+    color: #007bff; /* สีฟ้าสำหรับไอคอน More Detail */
+    margin-right: 4px;
+    font-size: 0.8rem; /* ขนาดของไอคอนเล็กลง */
+}
+
+.more-detail-btn:hover {
+    text-decoration: underline;
+}

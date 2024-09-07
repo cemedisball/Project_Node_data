@@ -12,8 +12,8 @@
 
     <div class="header-container">
         <h1>Camp Detail</h1>
-        <a href="camp_adminpage.html" class="back-btn">
-            <i class="fas fa-arrow-left"></i> Back to Admin Page
+        <a href="camp_homepage.html" class="back-btn">
+            <i class="fas fa-arrow-left"></i> Back
         </a>
     </div>
 
@@ -26,7 +26,7 @@
     <script>
         async function loadNavbar() {
             try {
-                const response = await fetch('navbaradmin.html');
+                const response = await fetch('navbar.html');
                 if (!response.ok) throw new Error('Network response was not ok');
                 const navbar = await response.text();
                 

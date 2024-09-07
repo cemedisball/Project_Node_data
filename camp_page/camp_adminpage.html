@@ -10,7 +10,12 @@
 <body>
     <div id="navbar-container2"></div>
     
-    <h1 style="text-align: center;">Camps Table</h1>
+    <div class="header-container">
+        <h1>ADMIN</h1>
+        <button id="addCampBtn" class="add-btn">
+            <i class="fas fa-plus"></i> Add Camp
+        </button>
+    </div>
     
     <table id="campsTable">
         <thead>
@@ -20,6 +25,7 @@
                 <th>เขต</th>
                 <th>วันเดือนปี</th>
                 <th>จำนวนคน</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -69,16 +75,82 @@
                 camps.forEach(camp => {
                     const row = document.createElement('tr');
                     row.innerHTML = `
-                        <td>${camp.camp_name}</td>
+                        <td>
+                            <div class="camp-name-container">
+                                ${camp.camp_name}
+                                <br>
+                                <button class="more-detail-btn" data-id="${camp._id}">
+                                    <i class="fa-solid fa-list"></i> More Detail
+                                </button>
+                            </div>
+                        </td>
                         <td>${camp.camp_topic}</td>
                         <td>${camp.camp_place}</td>
                         <td>${new Date(camp.date).toLocaleDateString()}</td>
-                        <td>${camp.attendees}</td>
+                        <td>${camp.people_count}</td>
+                        <td>
+                            <button class="edit-btn" data-id="${camp._id}">
+                                <i class="fas fa-edit"></i> Edit
+                            </button>
+                            <button class="delete-btn" data-id="${camp._id}">
+                                <i class="fas fa-trash-alt"></i> Delete
+                            </button>
+                        </td>
                     `;
                     tbody.appendChild(row);
                 });
+
+                // Add event listeners for "More Detail" buttons
+                const moreDetailButtons = document.querySelectorAll('.more-detail-btn');
+                moreDetailButtons.forEach(button => {
+                    button.addEventListener('click', function() {
+                        const campId = this.getAttribute('data-id');
+                        window.location.href = `camp_detail.html?id=${campId}`;
+                    });
+                });
+
+                // Add event listeners for "Edit" buttons
+                const editButtons = document.querySelectorAll('.edit-btn');
+                editButtons.forEach(button => {
+                    button.addEventListener('click', function() {
+                        const campId = this.getAttribute('data-id');
+                        window.location.href = `camp_edit.html?id=${campId}`; // Navigate to edit page
+                    });
+                });
+
+                // Add event listeners for "Delete" buttons
+                const deleteButtons = document.querySelectorAll('.delete-btn');
+                deleteButtons.forEach(button => {
+                    button.addEventListener('click', async function() {
+                        const campId = this.getAttribute('data-id');
+                        const confirmDelete = confirm("Are you sure you want to delete this camp?");
+                        if (confirmDelete) {
+                            await deleteCamp(campId);
+                        }
+                    });
+                });
+
             } catch (error) {
                 console.error('Error fetching camps:', error);
+            }
+        }
+        
+        async function deleteCamp(campId) {
+            try {
+                const token = localStorage.getItem('access-token');
+                const response = await fetch(`/api/camp/${campId}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    }
+                });
+                if (!response.ok) throw new Error('Failed to delete camp');
+                
+                // ลบข้อมูลจากตารางหลังจากที่ลบสำเร็จ
+                loadCamps();
+            } catch (error) {
+                console.error('Error deleting camp:', error);
             }
         }
 
@@ -88,7 +160,6 @@
                 window.location.href = '/camp_login.html';
                 return;
             }
-
             try {
                 const response = await fetch('/api/auth/validate', {
                     method: 'GET',
@@ -110,6 +181,11 @@
             await checkAuth();
             loadNavbar();
             loadCamps();
+
+            // เพิ่ม event listener ให้กับปุ่ม Add Camp
+            document.getElementById('addCampBtn').addEventListener('click', () => {
+                window.location.href = 'camp_insert.html'; // เปลี่ยนเส้นทางไปยังหน้า camp_insert.html
+            });
         });
     </script>
 </body>

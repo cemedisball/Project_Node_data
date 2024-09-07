@@ -47,43 +47,40 @@ exports.getCamp = async (req, res) => {
     
 // Create a new camp
 exports.createCamp = async (req, res) => {
-    const { camp_name, camp_detail, camp_place, camp_topic, date, time } = req.body;
+    const { camp_name, camp_detail, camp_place, camp_topic, date, time, people_count } = req.body;
+    const image = req.file ? req.file.filename : null; // ใช้ชื่อไฟล์ภาพ
 
-    console.log("Uploaded file: ", req.file); // ตรวจสอบข้อมูลไฟล์ที่ถูกอัปโหลด
-
-    let imagePath = null;
-    if (req.file) {
-        imagePath = req.file.path; // ถ้ามีไฟล์ภาพ ให้เก็บเส้นทางของภาพ
-        console.log("Image Path: ", imagePath); // ตรวจสอบเส้นทางไฟล์
-    }
-
-    const camp = new Camp({
+    const newCamp = new Camp({
         camp_name,
         camp_detail,
         camp_place,
         camp_topic,
         date,
         time,
-        image: imagePath // บันทึกเส้นทางภาพในฐานข้อมูล
+        people_count,
+        image
     });
 
-    try { 
-        const newCamp = await camp.save();
-        res.status(201).json(newCamp); 
-    } catch (err) { 
-        res.status(400).json({ message: err.message }); 
+    try {
+        const savedCamp = await newCamp.save();
+        res.status(201).json(savedCamp);
+    } catch (error) {
+        console.error('Error saving camp:', error);
+        res.status(500).send('Failed to add camp');
     }
 };
 
 
 // Update a camp by ID
-exports.updateCamp = async (req, res) => {
+ // Update path if necessary
+
+ exports.updateCamp = async (req, res) => {
     try {
         const { id } = req.params;
+        let imagePath = req.body.image; // ใช้พาธภาพที่มีอยู่เดิมถ้าไม่อัปโหลดใหม่
 
-        let imagePath = req.body.image; // ใช้เส้นทางภาพเดิมหากไม่มีการอัปโหลดใหม่
         if (req.file) {
-            imagePath = req.file.path; // ถ้ามีการอัปโหลดใหม่ ให้ใช้ภาพใหม่
+            imagePath = req.file.filename; // ใช้ชื่อไฟล์ใหม่ถ้ามีการอัปโหลดใหม่
         }
 
         const updatedCamp = await Camp.findByIdAndUpdate(id, {
@@ -93,10 +90,11 @@ exports.updateCamp = async (req, res) => {
 
         if (!updatedCamp) return res.status(404).json({ message: 'Camp not found' });
         res.status(200).json(updatedCamp);
-    } catch (err) { 
-        res.status(400).json({ message: err.message }); 
+    } catch (err) {
+        res.status(400).json({ message: err.message });
     }
 };
+
 
 // Delete a camp by ID
 exports.deleteCamp = async (req, res) => {

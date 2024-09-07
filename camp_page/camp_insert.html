@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="stylesadmin.css">
+    <title>Insert Camp</title>
+</head>
+<body>
+    <div id="navbar-container2"></div>
+    
+    <div class="header-container">
+        <h1>Add New Camp</h1>
+    </div>
+    
+    <form id="campForm" enctype="multipart/form-data">
+        <label for="camp_name">Camp Name:</label>
+        <input type="text" id="camp_name" name="camp_name" required>
+        
+        <label for="camp_detail">Camp Detail:</label>
+        <textarea id="camp_detail" name="camp_detail" required></textarea>
+
+        <label for="camp_topic">Camp Topic:</label>
+        <input type="text" id="camp_topic" name="camp_topic" required>
+        
+        <label for="camp_place">Camp Place:</label>
+        <select id="camp_place" name="camp_place" required>
+            <option value="Pattalung">พัทลุง</option>
+            <option value="Songkhla">สงขลา </option>
+        </select><br>
+        
+        <label for="date">Date:</label>
+        <input type="date" id="date" name="date" required>
+        
+        <label for="time">Time:</label>
+        <input type="time" id="time" name="time" required>
+
+        <label for="people_count">Number of People:</label>
+        <input type="number" id="people_count" name="people_count" required><br>
+        
+        <label for="image">Image:</label>
+        <input type="file" id="image" name="image" accept="image/*">
+        
+        <button type="submit">Submit</button>
+    </form>
+
+    <script>
+        async function loadNavbar() {
+            try {
+                const response = await fetch('navbaradmin.html');
+                if (!response.ok) throw new Error('Network response was not ok');
+                const navbar = await response.text();
+                
+                document.querySelector('#navbar-container2').innerHTML = navbar;
+                console.log('Navbar loaded:', navbar); // ตรวจสอบเนื้อหาที่โหลดมา
+                
+                // ตั้งค่า event listener หลังจากที่ Navbar โหลดเสร็จ
+                const logoutBtn = document.getElementById('logout-btn');
+                if (logoutBtn) {
+                    logoutBtn.addEventListener('click', function(event) {
+                        console.log('Logout button clicked'); // ตรวจสอบการคลิก
+                        event.preventDefault(); // Prevent default link behavior
+                        const confirmLogout = confirm("Are you sure you want to log out?");
+                        if (confirmLogout) {
+                            localStorage.removeItem('access-token'); // Remove token from localStorage
+                            window.location.href = "camp_homepage.html"; // Redirect to camp_homepage.html
+                        }
+                    });
+                } else {
+                    console.error('Logout button not found');
+                }
+            } catch (error) {
+                console.error('Error loading navbar:', error);
+            }
+        }
+
+        async function checkAuth() {
+            const token = localStorage.getItem('access-token');
+            if (!token) {
+                window.location.href = '/camp_login.html';
+                return;
+            }
+            try {
+                const response = await fetch('/api/auth/validate', {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+
+                if (response.status === 401 || response.status === 403) {
+                    window.location.href = '/camp_login';
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                window.location.href = '/camp_login';
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            await checkAuth();
+            loadNavbar();
+
+            document.getElementById('campForm').addEventListener('submit', async (event) => {
+                event.preventDefault();
+                
+                const formData = new FormData(event.target);
+                const token = localStorage.getItem('access-token');
+                
+                try {
+                    const response = await fetch('/api/camp', {
+                        method: 'POST',
+                        headers: {
+                            'Authorization': `Bearer ${token}`
+                        },
+                        body: formData
+                    });
+
+                    if (!response.ok) throw new Error('Failed to add camp');
+                    
+                    alert('Camp added successfully');
+                    window.location.href = 'camp_adminpage.html'; // เปลี่ยนเส้นทางไปยังหน้า admin page หลังจากเพิ่มค่ายเสร็จ
+                } catch (error) {
+                    console.error('Error adding camp:', error);
+                    alert('Failed to add camp');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
