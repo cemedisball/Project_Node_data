@@ -2,9 +2,12 @@ const express = require('express');
 const router = express.Router();
 const authenticateToken = require("../middlewares/auth");
 const { upload } = require('../controller/campController'); // import multer upload middleware
+//Homepage
+const { getHomepage } = require('../controller/campController');
+router.get('/', getHomepage);
 
+//backend
 const { getCamps, getCamp, createCamp, updateCamp, deleteCamp } = require("../controller/campController");
-
 router.get("/camps", getCamps);
 router.get("/camp/:id", getCamp);
 

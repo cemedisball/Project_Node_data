@@ -4,6 +4,7 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require ("bcryptjs");
 const multer = require('multer');
 const path = require('path');
+
 //upload img
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
@@ -109,4 +110,14 @@ exports.deleteCamp = async (req, res) => {
     }
 };
 // Export the Multer upload middleware
+
+//getHomepage
+exports.getHomepage = async (req, res) => {
+    try {
+        const camps = await Camp.find(); // ดึงข้อมูลค่ายทั้งหมดจากฐานข้อมูล
+        res.render("camp_homepage", { camps }); // ส่งข้อมูลค่ายไปยัง view
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+};
 exports.upload = upload.single('image'); // ใช้กับการอัปโหลดไฟล์เดี่ยว

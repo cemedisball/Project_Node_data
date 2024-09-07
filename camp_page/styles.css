@@ -1,0 +1,40 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.navbar {
+    display: flex;
+    align-items: center;
+    justify-content: center; /* ใช้ flexbox เพื่อจัดกึ่งกลาง */
+    background-color: #EEDEB6;
+    color: white;
+    padding: 1rem;
+    position: relative;
+}
+
+.navbar img {
+    position: absolute; /* โลโก้จะอยู่ที่มุมซ้าย */
+    top: 50%;
+    left: 1rem;
+    transform: translateY(-50%);
+    height: 200px; /* ขนาดของโลโก้ */
+}
+
+.navbar-links {
+    display: flex; /* ใช้ flexbox เพื่อจัดกึ่งกลาง */
+    gap: 15px; /* ช่องว่างระหว่างลิงค์ */
+}
+
+.navbar a {
+    color: rgb(4, 4, 4); /* สีปกติของลิงค์ */
+    text-decoration: none;
+    font-size: 1.2rem;
+    padding: 0.5rem 1rem; /* เพิ่ม padding เพื่อให้ลิงค์ดูดีขึ้น */
+}
+
+.navbar a:hover {
+    text-decoration: underline;
+}
+
