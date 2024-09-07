@@ -2,18 +2,32 @@
 <html lang="en">
 <head>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="stylesadmin.css">
-    <title>Document</title>
+    <title>Admin Page</title>
 </head>
 <body>
     <div id="navbar-container2"></div>
+    
+    <h1 style="text-align: center;">Camps Table</h1>
+    
+    <table id="campsTable">
+        <thead>
+            <tr>
+                <th>ชื่อค่าย</th>
+                <th>หัวข้อค่าย</th>
+                <th>เขต</th>
+                <th>วันเดือนปี</th>
+                <th>จำนวนคน</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- ข้อมูลจะถูกเพิ่มที่นี่โดย JavaScript -->
+        </tbody>
+    </table>
 
-
-
-    <script>  
+    <script>
         async function loadNavbar() {
             try {
                 const response = await fetch('navbaradmin.html');
@@ -21,14 +35,82 @@
                 const navbar = await response.text();
                 
                 document.querySelector('#navbar-container2').innerHTML = navbar;
+                console.log('Navbar loaded:', navbar); // ตรวจสอบเนื้อหาที่โหลดมา
+                
+                // ตั้งค่า event listener หลังจากที่ Navbar โหลดเสร็จ
+                const logoutBtn = document.getElementById('logout-btn');
+                if (logoutBtn) {
+                    logoutBtn.addEventListener('click', function(event) {
+                        console.log('Logout button clicked'); // ตรวจสอบการคลิก
+                        event.preventDefault(); // Prevent default link behavior
+                        const confirmLogout = confirm("Are you sure you want to log out?");
+                        if (confirmLogout) {
+                            localStorage.removeItem('access-token'); // Remove token from localStorage
+                            window.location.href = "camp_homepage.html"; // Redirect to camp_homepage.html
+                        }
+                    });
+                } else {
+                    console.error('Logout button not found');
+                }
             } catch (error) {
                 console.error('Error loading navbar:', error);
             }
         }
-        document.addEventListener('DOMContentLoaded', () => {
+
+        async function loadCamps() {
+            try {
+                const response = await fetch('/api/camps');
+                if (!response.ok) throw new Error('Network response was not ok');
+                const camps = await response.json();
+                
+                const tbody = document.querySelector('#campsTable tbody');
+                tbody.innerHTML = ''; // Clear existing rows
+
+                camps.forEach(camp => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${camp.camp_name}</td>
+                        <td>${camp.camp_topic}</td>
+                        <td>${camp.camp_place}</td>
+                        <td>${new Date(camp.date).toLocaleDateString()}</td>
+                        <td>${camp.attendees}</td>
+                    `;
+                    tbody.appendChild(row);
+                });
+            } catch (error) {
+                console.error('Error fetching camps:', error);
+            }
+        }
+
+        async function checkAuth() {
+            const token = localStorage.getItem('access-token');
+            if (!token) {
+                window.location.href = '/camp_login.html';
+                return;
+            }
+
+            try {
+                const response = await fetch('/api/auth/validate', {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+
+                if (response.status === 401 || response.status === 403) {
+                    window.location.href = '/camp_login';
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                window.location.href = '/camp_login';
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            await checkAuth();
             loadNavbar();
-            
+            loadCamps();
         });
-        </script>
+    </script>
 </body>
 </html>

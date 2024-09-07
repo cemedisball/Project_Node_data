@@ -9,23 +9,5 @@
     </div>
 </div>
 
-<!-- Include Font Awesome for icon -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js"></script>
 
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const logoutBtn = document.getElementById('logout-btn');
-        
-        if (logoutBtn) {
-            logoutBtn.addEventListener('click', function(event) {
-                event.preventDefault(); // ป้องกันไม่ให้ลิงค์ทำงานปกติ
-                const confirmLogout = confirm("Are you sure you want to log out?");
-                if (confirmLogout) {
-                    window.location.href = "camp_homepage.html"; // เปลี่ยนเส้นทางไปที่ camp_homepage.html
-                }
-            });
-        } else {
-            console.error('Logout button not found');
-        }
-    });
-</script>
+

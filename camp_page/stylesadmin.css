@@ -71,6 +71,26 @@ body {
 .logout-btn:hover {
     text-decoration: underline; /* เพิ่ม underline เมื่อนำเมาส์ไปวาง */
 }
+/*table*/
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+}
+
+table, th, td {
+    border: 1px solid #ddd;
+}
+
+th, td {
+    padding: 12px;
+    text-align: left;
+    font-size: 0.9rem;
+}
+
+th {
+    background-color: #f4f4f4;
+}
 
 
 
