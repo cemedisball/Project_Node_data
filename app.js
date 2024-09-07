@@ -9,10 +9,11 @@ const app = express();
 app.use('/file_img', express.static(path.join(__dirname, 'file_img')));
 
 // Serve HTML file
+
+//camp_page
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'camp_page', 'camp_homepage.html'));
 });
-
 
 app.use(express.static(path.join(__dirname, 'camp_page'))); // ตั้งค่าเส้นทางของไฟล์ HTML
 
@@ -21,6 +22,22 @@ app.get('/camp_login', (req, res) => {
 });
 
 app.use(express.json());
+
+//course_page
+
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'course_page', 'course_homepage.html'));
+});
+
+app.use(express.static(path.join(__dirname, 'course_page')));
+
+
+//course_adminpage
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'course_adminpage', 'course_adminhomepage.html'));
+});
+
+app.use(express.static(path.join(__dirname, 'course_adminpage')));
 
 // Connect to MongoDB
 mongoose.connect(process.env.MONGO_DB_URI, {})
