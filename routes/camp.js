@@ -1,18 +1,17 @@
 const express = require('express');
 const router = express.Router();
 const authenticateToken = require("../middlewares/auth");
+const { upload } = require('../controller/campController'); // import multer upload middleware
 
+const { getCamps, getCamp, createCamp, updateCamp, deleteCamp } = require("../controller/campController");
 
-const { getCamps, getCamp, createCamp ,updateCamp, deleteCamp } = require ("../controller/campController");
+router.get("/camps", getCamps);
+router.get("/camp/:id", getCamp);
 
-router.get("/camps",authenticateToken,getCamps);
-router.get("/camp/:id", authenticateToken,getCamp);
-router.post("/camp", authenticateToken,createCamp);
-router.put("/camp/:id", authenticateToken,updateCamp);
-router.delete("/camp/:id", authenticateToken,deleteCamp);
+// เพิ่ม middleware upload สำหรับการอัปโหลดไฟล์ภาพใน post และ put routes
+router.post("/camp",  upload, authenticateToken,createCamp);
+router.put("/camp/:id" , upload, authenticateToken,updateCamp);
 
+router.delete("/camp/:id", authenticateToken, deleteCamp);
 
 module.exports = router;
-
-
-

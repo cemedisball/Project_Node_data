@@ -5,9 +5,10 @@ const campSchema = new mongoose.Schema({
     camp_name : { type: String, required: true },
     camp_detail : { type: String, required: true },
     camp_place : { type: String, required: true },
-    camp_manager : { type: String, required: true },
+    camp_topic : { type: String, required: true },
     date : { type: Date, required: true },
     time : { type: String, required: true },
+    image: { type: String },
 },
     {timestamps : true, versionKey: false}
 );
