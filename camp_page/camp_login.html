@@ -1,30 +1,59 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Login</title>
+    <link rel="stylesheet" href="styles2.css">
 </head>
 <body>
-    <div id="navbar-container"></div> <!-- จุดที่เราจะใส่ navbar -->
-    <h1 style="text-align: center;">Camps Table</h1>
+    <div class="login-container">
+        <h1>Login</h1>
+        <form id="loginForm">
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" required>
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required>
+            <button type="submit">Login</button>
+            <a href="#">Forgot password?</a>
+        </form>
+        <p id="loginError" style="color: red; display: none;"></p> <!-- Error message -->
+    </div>
     <script>
-        async function loadNavbar() {
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const errorMessage = document.getElementById('loginError');
+
             try {
-                const response = await fetch('navbar.html');
-                if (!response.ok) throw new Error('Network response was not ok');
-                const navbar = await response.text();
-                
-                document.querySelector('#navbar-container').innerHTML = navbar;
+                const response = await fetch('/api/auth/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ user_name: username, password })
+                });
+
+                if (!response.ok) {
+                    const errorText = await response.text();
+                    errorMessage.textContent = 'Username or password incorrect.';
+                    errorMessage.style.display = 'block'; // Show error message
+                    return;
+                }
+
+                const { accessToken, refreshToken } = await response.json();
+                localStorage.setItem('accessToken', accessToken);
+                localStorage.setItem('refreshToken', refreshToken);
+                errorMessage.style.display = 'none'; // Hide error message
+                alert('Login successful!');
+                window.location.href = 'camp_adminpage.html'; // Redirect to admin_homepage.html
             } catch (error) {
-                console.error('Error loading navbar:', error);
+                console.error('Error during login:', error);
+                errorMessage.textContent = 'An error occurred. Please try again.';
+                errorMessage.style.display = 'block'; // Show error message
             }
-        }
-        
-        document.addEventListener('DOMContentLoaded', () => {
-            loadNavbar();
-            
         });
-        </script>
+    </script>
 </body>
 </html>

@@ -36,14 +36,5 @@ app.use("/api", campRoute);
 const authRoute = require("./routes/auth");
 app.use("/api/auth", authRoute);
 
-// Serve EJS view (comment this out if not using EJS)
-// app.set('view engine', 'ejs');
-// app.set('views', path.join(__dirname, 'camp_page'));
-
-// Comment out this line if you are serving an HTML file
-// app.get("/", (req, res) => {
-//     res.render("camp_homepage"); // ใช้ไฟล์ homepage.ejs ที่อยู่ในโฟลเดอร์ camp_page
-// });
-
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

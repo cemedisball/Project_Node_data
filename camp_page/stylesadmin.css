@@ -1,3 +1,4 @@
+
 body {
     font-family: Arial, sans-serif;
     margin: 0;
@@ -38,31 +39,38 @@ body {
     font-size: 1.2rem;
     padding: 0.5rem 1rem;
 }
+/*.navbar a1 {
+    color: rgb(236, 5, 5);
+    text-decoration: none;
+    font-size: 1.2rem;
+    padding: 0.5rem 1rem;
+}*/
 
 .navbar a:hover {
     text-decoration: underline;
 }
-
-/*login*/
-.navbar-login {
-    margin-left: auto; /* ดันปุ่ม login ไปด้านขวาสุด */
+.navbar-title {
+    flex: 1; /* ให้พื้นที่ตรงกลาง */
+    text-align: center; /* จัดกึ่งกลางข้อความ */
+    font-size: 1.5rem; /* ขนาดตัวอักษรของข้อความ */
 }
 
-.login-btn {
-    padding: 0.5rem 1rem;
-    background-color: #ffffff; /* สีพื้นหลังปุ่ม login */
-    color: white;
-    border-radius: 5px;
-    text-decoration: none;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+
+.logout-btn {
+    color: red; /* สีของลิงค์ Logout เป็นสีแดง */
+    text-decoration: none; /* ลบ underline ของลิงค์ */
+    display: flex; /* ใช้ flexbox เพื่อจัดการตำแหน่งของไอคอนและข้อความ */
+    align-items: center; /* จัดกึ่งกลางแนวตั้ง */
+    padding: 0.5rem 1rem; /* เพิ่ม padding ถ้าต้องการ */
 }
 
-.login-btn:hover {
-    background-color: #ffffff; /* เปลี่ยนสีเมื่อ hover */
+.logout-btn i {
+    margin-right: 8px; /* ช่องว่างระหว่างไอคอนและข้อความ */
 }
 
-.login-btn i {
-    margin-right: 0.5rem; /* ช่องว่างระหว่างไอคอนและข้อความ */
+.logout-btn:hover {
+    text-decoration: underline; /* เพิ่ม underline เมื่อนำเมาส์ไปวาง */
 }
+
+
+
