@@ -116,9 +116,10 @@ th {
 
 .header-container {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
+    justify-content: space-between; /* Space between the title and the back button */
+    align-items: center; /* Center vertically */
     padding: 20px;
+    background-color: #f9f9f9; /* Optional: background color for better visibility */
 }
 
 .header-container h1 {
@@ -246,3 +247,36 @@ form button:hover {
 .more-detail-btn:hover {
     text-decoration: underline;
 }
+/*back button*/
+/* Container to hold header and form */
+.container {
+    position: relative; /* To position the back button relative to this container */
+    padding: 20px; /* Padding for container */
+}
+
+/* Position the back button */
+.back-btn {
+    background-color: #007bff; /* Blue background */
+    color: white; /* White text */
+    border: none;
+    border-radius: 5px; /* Rounded corners */
+    padding: 10px 20px; /* Padding */
+    font-size: 16px; /* Font size */
+    cursor: pointer; /* Pointer cursor on hover */
+    transition: background-color 0.3s ease; /* Smooth background color transition */
+}
+
+.back-btn:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+}
+
+.back-btn i {
+    margin-right: 8px; /* Spacing between icon and text */
+}
+
+.back-btn:focus {
+    outline: none; /* Remove default focus outline */
+}
+
+
+

@@ -6,33 +6,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="stylesadmin.css">
     <title>Homepage</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 20px 0;
-        }
-        table, th, td {
-            border: 1px solid #ddd;
-        }
-        th, td {
-            padding: 12px;
-            text-align: left;
-            font-size: 0.9rem;
-        }
-        th {
-            background-color: #f4f4f4;
-        }
-    </style>
+    
+    
 </head>
 <body>
     <div id="navbar-container"></div> <!-- จุดที่เราจะใส่ navbar -->
+    
     <h1 style="text-align: center;">Camps Table</h1>
+
+    <div class="filter-container">
+        <label for="yearFilter">Select Year:</label>
+        <select id="yearFilter">
+            <!-- ตัวเลือกปีจะถูกเพิ่มที่นี่โดย JavaScript -->
+        </select>
+    </div>
 
     <table id="campsTable">
         <thead>
@@ -42,6 +29,7 @@
                 <th>เขต</th>
                 <th>วันเดือนปี</th>
                 <th>จำนวนคน</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -61,8 +49,25 @@
                 console.error('Error loading navbar:', error);
             }
         }
-        
 
+        function loadYearOptions() {
+            const years = ['Select',2021, 2022, 2023, 2024, 2025];
+            const yearFilter = document.getElementById('yearFilter');
+
+            years.forEach(year => {
+                const option = document.createElement('option');
+                option.value = year;
+                option.textContent = year;
+                yearFilter.appendChild(option);
+            });
+
+            // Redirect to camps_admindate with the selected year
+            yearFilter.addEventListener('change', () => {
+                const selectedYear = yearFilter.value;
+                window.location.href = `camp_userdate.html?year=${selectedYear}`;
+            });
+        }
+        
         async function loadCamps() {
             try {
                 const response = await fetch('/api/camps');
@@ -70,7 +75,7 @@
                 const camps = await response.json();
                 
                 const tbody = document.querySelector('#campsTable tbody');
-                tbody.innerHTML = ''; // Clear existing rows
+                tbody.innerHTML = '';
 
                 camps.forEach(camp => {
                     const row = document.createElement('tr');
@@ -88,9 +93,18 @@
                         <td>${camp.camp_place}</td>
                         <td>${new Date(camp.date).toLocaleDateString()}</td>
                         <td>${camp.people_count}</td>
+                        <td>
+                            <button class="edit-btn" data-id="${camp._id}">
+                                <i class="fas fa-edit"></i> Edit
+                            </button>
+                            <button class="delete-btn" data-id="${camp._id}">
+                                <i class="fas fa-trash-alt"></i> Delete
+                            </button>
+                        </td>
                     `;
                     tbody.appendChild(row);
                 });
+
                 const moreDetailButtons = document.querySelectorAll('.more-detail-btn');
                 moreDetailButtons.forEach(button => {
                     button.addEventListener('click', function() {
@@ -104,6 +118,7 @@
         }
 
         document.addEventListener('DOMContentLoaded', () => {
+            loadYearOptions();
             loadNavbar();
             loadCamps();
         });

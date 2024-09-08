@@ -10,40 +10,47 @@
 <body>
     <div id="navbar-container2"></div>
     
-    <div class="header-container">
-        <h1>Add New Camp</h1>
+    <div class="container">
+        <div class="header-container">
+            <h1>Add New Camp</h1>
+            <button type="button" id="backBtn" class="back-btn">
+                <i class="fas fa-arrow-left"></i> Back
+            </button>
+        </div>
+
+        <form id="campForm" enctype="multipart/form-data">
+            <label for="camp_name">Camp Name:</label>
+            <input type="text" id="camp_name" name="camp_name" required>
+            
+            <label for="camp_detail">Camp Detail:</label>
+            <textarea id="camp_detail" name="camp_detail" required></textarea>
+
+            <label for="camp_topic">Camp Topic:</label>
+            <input type="text" id="camp_topic" name="camp_topic" required>
+            
+            <label for="camp_place">Camp Place:</label>
+            <select id="camp_place" name="camp_place" required>
+                <option value="พัทลุง">พัทลุง</option>
+                <option value="สงขลา">สงขลา</option>
+            </select><br>
+            
+            <label for="date">Date:</label>
+            <input type="date" id="date" name="date" required>
+            
+            <label for="time">Time:</label>
+            <input type="time" id="time" name="time" required>
+
+            <label for="people_count">Number of People:</label>
+            <input type="number" id="people_count" name="people_count" required><br>
+            
+            <label for="image">Image:</label>
+            <input type="file" id="image" name="image" accept="image/*">
+            
+            <button type="submit">Submit</button>
+        </form>
+
+        
     </div>
-    
-    <form id="campForm" enctype="multipart/form-data">
-        <label for="camp_name">Camp Name:</label>
-        <input type="text" id="camp_name" name="camp_name" required>
-        
-        <label for="camp_detail">Camp Detail:</label>
-        <textarea id="camp_detail" name="camp_detail" required></textarea>
-
-        <label for="camp_topic">Camp Topic:</label>
-        <input type="text" id="camp_topic" name="camp_topic" required>
-        
-        <label for="camp_place">Camp Place:</label>
-        <select id="camp_place" name="camp_place" required>
-            <option value="Pattalung">พัทลุง</option>
-            <option value="Songkhla">สงขลา </option>
-        </select><br>
-        
-        <label for="date">Date:</label>
-        <input type="date" id="date" name="date" required>
-        
-        <label for="time">Time:</label>
-        <input type="time" id="time" name="time" required>
-
-        <label for="people_count">Number of People:</label>
-        <input type="number" id="people_count" name="people_count" required><br>
-        
-        <label for="image">Image:</label>
-        <input type="file" id="image" name="image" accept="image/*">
-        
-        <button type="submit">Submit</button>
-    </form>
 
     <script>
         async function loadNavbar() {
@@ -125,6 +132,10 @@
                     console.error('Error adding camp:', error);
                     alert('Failed to add camp');
                 }
+            });
+
+            document.getElementById('backBtn').addEventListener('click', () => {
+                window.location.href = 'camp_adminpage.html'; // Navigate back to admin page
             });
         });
     </script>

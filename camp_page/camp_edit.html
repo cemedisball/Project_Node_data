@@ -13,7 +13,7 @@
     <div class="header-container">
         <h1>Edit Camp</h1>
         <a href="camp_adminpage.html" class="back-btn">
-            <i class="fas fa-arrow-left"></i> Back to Admin Page
+            <i class="fas fa-arrow-left"></i> Back 
         </a>
     </div>
 
@@ -32,7 +32,6 @@
                 document.querySelector('#navbar-container2').innerHTML = navbar;
                 console.log('Navbar loaded:', navbar);
 
-                // ตั้งค่า event listener หลังจากที่ Navbar โหลดเสร็จ
                 const logoutBtn = document.getElementById('logout-btn');
                 if (logoutBtn) {
                     logoutBtn.addEventListener('click', function(event) {
@@ -98,9 +97,12 @@
 
                         <label for="camp_detail">Camp Detail:</label>
                         <textarea id="camp_detail" name="camp_detail" rows="4" required>${camp.camp_detail}</textarea>
-
+                        
                         <label for="camp_place">Camp Place:</label>
-                        <input type="text" id="camp_place" name="camp_place" value="${camp.camp_place}" required />
+                        <select id="camp_place" name="camp_place" required>
+                            <option value="พัทลุง" ${camp.camp_place === "พัทลุง" ? 'selected' : ''}>พัทลุง</option>
+                            <option value="สงขลา" ${camp.camp_place === "สงขลา" ? 'selected' : ''}>สงขลา</option>
+                        </select><br>
 
                         <label for="camp_topic">Camp Topic:</label>
                         <input type="text" id="camp_topic" name="camp_topic" value="${camp.camp_topic}" required />
@@ -124,6 +126,7 @@
 
                 document.getElementById('edit-camp-form').addEventListener('submit', async (event) => {
                     event.preventDefault();
+                    
                     const formData = new FormData(event.target);
                     const token = localStorage.getItem('access-token');
                     
