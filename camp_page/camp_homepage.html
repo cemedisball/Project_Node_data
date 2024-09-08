@@ -27,9 +27,9 @@
                 <th>ชื่อค่าย</th>
                 <th>หัวข้อค่าย</th>
                 <th>เขต</th>
-                <th>วันเดือนปี</th>
+                <th>วัน/เดือน/ปี</th>
                 <th>จำนวนคน</th>
-                <th>Actions</th>
+                
             </tr>
         </thead>
         <tbody>
@@ -67,6 +67,14 @@
                 window.location.href = `camp_userdate.html?year=${selectedYear}`;
             });
         }
+        function formatDate(dateString) {
+            // Return date in format DD/MM/YYYY
+            const date = new Date(dateString);
+            const day = ("0" + date.getDate()).slice(-2);
+            const month = ("0" + (date.getMonth() + 1)).slice(-2);
+            const year = date.getFullYear();
+            return `${day}/${month}/${year}`;
+        }
         
         async function loadCamps() {
             try {
@@ -91,16 +99,10 @@
                         </td>
                         <td>${camp.camp_topic}</td>
                         <td>${camp.camp_place}</td>
-                        <td>${new Date(camp.date).toLocaleDateString()}</td>
+                       <td>${formatDate(camp.date)}</td>
                         <td>${camp.people_count}</td>
-                        <td>
-                            <button class="edit-btn" data-id="${camp._id}">
-                                <i class="fas fa-edit"></i> Edit
-                            </button>
-                            <button class="delete-btn" data-id="${camp._id}">
-                                <i class="fas fa-trash-alt"></i> Delete
-                            </button>
-                        </td>
+                        
+                            
                     `;
                     tbody.appendChild(row);
                 });

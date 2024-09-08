@@ -74,6 +74,24 @@
             }
         }
 
+        function formatDateForInput(dateString) {
+            const date = new Date(dateString);
+            const day = ("0" + date.getDate()).slice(-2);
+            const month = ("0" + (date.getMonth() + 1)).slice(-2);
+            const year = date.getFullYear();
+            return `${day}/${month}/${year}`;
+        }
+
+        function parseDate(dateString) {
+            const [day, month, year] = dateString.split('/');
+            return new Date(`${year}-${month}-${day}`);
+        }
+
+        function isValidTime(time) {
+            const timeRegex = /^([01]\d|2[0-3]):([0-5]\d)$/;
+            return timeRegex.test(time);
+        }
+
         async function loadCampForEdit() {
             const urlParams = new URLSearchParams(window.location.search);
             const campId = urlParams.get('id');
@@ -107,11 +125,11 @@
                         <label for="camp_topic">Camp Topic:</label>
                         <input type="text" id="camp_topic" name="camp_topic" value="${camp.camp_topic}" required />
 
-                        <label for="date">Date:</label>
-                        <input type="date" id="date" name="date" value="${new Date(camp.date).toISOString().split('T')[0]}" required />
+                        <label for="date">Date (DD/MM/YYYY):</label>
+                        <input type="text" id="date" name="date" value="${formatDateForInput(camp.date)}" placeholder="DD/MM/YYYY" required />
 
-                        <label for="time">Time:</label>
-                        <input type="time" id="time" name="time" value="${camp.time}" required />
+                        <label for="time">Time (00:00):</label>
+                        <input type="text" id="time" name="time" value="${camp.time}" placeholder="00:00" required />
 
                         <label for="people_count">People Count:</label>
                         <input type="number" id="people_count" name="people_count" value="${camp.people_count}" required />
@@ -129,7 +147,20 @@
                     
                     const formData = new FormData(event.target);
                     const token = localStorage.getItem('access-token');
-                    
+
+                    // Parse the date input value
+                    const dateInput = document.getElementById('date').value;
+                    const parsedDate = parseDate(dateInput);
+                    formData.set('date', parsedDate.toISOString());
+
+                    // Validate and parse the time input value
+                    const timeInput = document.getElementById('time').value;
+                    if (!isValidTime(timeInput)) {
+                        alert('Please enter a valid time in HH:MM format');
+                        return;
+                    }
+                    formData.set('time', timeInput);
+
                     try {
                         const response = await fetch(`/api/camp/${camp._id}`, {
                             method: 'PUT',

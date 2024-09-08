@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="stylesadmin.css">
@@ -34,12 +33,12 @@
                 <option value="สงขลา">สงขลา</option>
             </select><br>
             
-            <label for="date">Date:</label>
-            <input type="date" id="date" name="date" required>
+            <label for="date">Date (DD/MM/YYYY):</label>
+            <input type="text" id="date" name="date" placeholder="DD/MM/YYYY" required>
             
             <label for="time">Time:</label>
-            <input type="time" id="time" name="time" required>
-
+            <input type="text" id="time" name="time" placeholder="00:00" required>
+            
             <label for="people_count">Number of People:</label>
             <input type="number" id="people_count" name="people_count" required><br>
             
@@ -48,8 +47,6 @@
             
             <button type="submit">Submit</button>
         </form>
-
-        
     </div>
 
     <script>
@@ -60,18 +57,17 @@
                 const navbar = await response.text();
                 
                 document.querySelector('#navbar-container2').innerHTML = navbar;
-                console.log('Navbar loaded:', navbar); // ตรวจสอบเนื้อหาที่โหลดมา
+                console.log('Navbar loaded:', navbar);
                 
-                // ตั้งค่า event listener หลังจากที่ Navbar โหลดเสร็จ
                 const logoutBtn = document.getElementById('logout-btn');
                 if (logoutBtn) {
                     logoutBtn.addEventListener('click', function(event) {
-                        console.log('Logout button clicked'); // ตรวจสอบการคลิก
-                        event.preventDefault(); // Prevent default link behavior
+                        console.log('Logout button clicked');
+                        event.preventDefault();
                         const confirmLogout = confirm("Are you sure you want to log out?");
                         if (confirmLogout) {
-                            localStorage.removeItem('access-token'); // Remove token from localStorage
-                            window.location.href = "camp_homepage.html"; // Redirect to camp_homepage.html
+                            localStorage.removeItem('access-token');
+                            window.location.href = "camp_homepage.html";
                         }
                     });
                 } else {
@@ -111,8 +107,27 @@
 
             document.getElementById('campForm').addEventListener('submit', async (event) => {
                 event.preventDefault();
+
+                const dateInput = document.getElementById('date').value;
+                const [day, month, year] = dateInput.split('/');
+
+                if (!day || !month || !year || !isValidDate(day, month, year)) {
+                    alert('Please enter a valid date in DD/MM/YYYY format');
+                    return;
+                }
+
+                const date = `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
                 
+                const timeInput = document.getElementById('time').value;
+                if (!isValidTime(timeInput)) {
+                    alert('Please enter a valid time in HH:MM format');
+                    return;
+                }
+                const time = timeInput;
+
                 const formData = new FormData(event.target);
+                formData.set('date', date);
+                formData.set('time', time);
                 const token = localStorage.getItem('access-token');
                 
                 try {
@@ -127,7 +142,7 @@
                     if (!response.ok) throw new Error('Failed to add camp');
                     
                     alert('Camp added successfully');
-                    window.location.href = 'camp_adminpage.html'; // เปลี่ยนเส้นทางไปยังหน้า admin page หลังจากเพิ่มค่ายเสร็จ
+                    window.location.href = 'camp_adminpage.html';
                 } catch (error) {
                     console.error('Error adding camp:', error);
                     alert('Failed to add camp');
@@ -135,9 +150,38 @@
             });
 
             document.getElementById('backBtn').addEventListener('click', () => {
-                window.location.href = 'camp_adminpage.html'; // Navigate back to admin page
+                window.location.href = 'camp_adminpage.html';
             });
         });
+
+        function isValidDate(day, month, year) {
+            const d = parseInt(day, 10);
+            const m = parseInt(month, 10);
+            const y = parseInt(year, 10);
+
+            if (isNaN(d) || isNaN(m) || isNaN(y)) return false;
+
+            if (m < 1 || m > 12) return false;
+            if (d < 1 || d > 31) return false;
+
+            if (m === 2) {
+                if (d > 29) return false;
+                if (d === 29 && !isLeapYear(y)) return false;
+            }
+
+            if ((m === 4 || m === 6 || m === 9 || m === 11) && d > 30) return false;
+
+            return true;
+        }
+
+        function isLeapYear(year) {
+            return (year % 4 === 0 && year % 100 !== 0) || (year % 400 === 0);
+        }
+
+        function isValidTime(time) {
+            const timeRegex = /^([01]\d|2[0-3]):([0-5]\d)$/;
+            return timeRegex.test(time);
+        }
     </script>
 </body>
 </html>

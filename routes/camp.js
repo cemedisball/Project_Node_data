@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const authenticateToken = require("../middlewares/auth");
-const { upload } = require('../controller/campController');
+//const { upload } = require('../controller/campController');
 const Camp = require('../models/camp'); // Import Camp model
 
 // Homepage
@@ -9,7 +9,7 @@ const { getHomepage } = require('../controller/campController');
 router.get('/', getHomepage);
 
 // Backend
-const { getCamps, getCamp, createCamp, updateCamp, deleteCamp } = require("../controller/campController");
+const { upload,getCamps, getCamp, createCamp, updateCamp, deleteCamp } = require("../controller/campController");
 router.get("/camps", getCamps);
 router.get("/camp/:id", getCamp);
 
